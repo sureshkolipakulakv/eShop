@@ -24,14 +24,12 @@ jobs:
       - name: Test
         run: dotnet test ./eShopOnWeb.sln --configuration Release
 
-      steps:
-        - uses: actions/checkout@v2
-        - name: Azure Container Registry Login
-          uses: Azure/docker-login@v1
-          with:
-            username: ${{ secrets.ACR_USER}}
-            password: ${{ secrets.ACR_PASSWORD}}
-            login-server: ${{ secrets.ACR_SERVER}}
+      - name: Azure Container Registry Login
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.ACR_USER}}
+          password: ${{ secrets.ACR_PASSWORD}}
+          login-server: ${{ secrets.ACR_SERVER}}
 
       -run: |
          docker build -f src/Web/Dockerfile . -t ${{ secrets.ACR_SERVER}}/eshop:${{ github.run_id}}
